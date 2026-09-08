@@ -47,13 +47,13 @@ Nesta seção detalhamos as decisões arquiteturais tomadas durante o desenvolvi
 
 Para garantir que o *script* seja capaz de processar arquivos superiores a 1 GB sem esgotar a memória RAM, implementamos a leitura em blocos (*chunks*). Utilizando a estrutura with open(caminho, "rb"), o arquivo é lido em pequenos blocos de 64 KB (65536 bytes) através de uma função lambda iterável, atualizando o cálculo do *hash* gradualmente em vez de carregar o arquivo inteiro na memória. A comparação é feita através da manipulação de dicionários em Python, cruzando os dados armazenados em hashes.txt com uma nova varredura os.walk() em tempo real.
 
-(imagens/Item2.1.jpeg)
+![Imagem do Item 2.1](imagens/Item2.1.jpeg)
 
 **Item 2.2 \- Detector de Senhas Fracas sem *Salt* (quebra\_sem\_salt.py)**
 
 O algoritmo foi otimizado pré-computando o dicionário de senhas. Como não há *salt*, calculamos o *hash* SHA-256 de cada senha do dicionário senhas\_comuns.txt uma única vez e armazenamos em memória. Em seguida, iteramos sobre os *hashes* vazados comparando-os diretamente.
 
-(imagens/Item2.2.jpeg)
+![Imagem do Item 2.2](imagens/Item2.2.jpeg)
 
 O método torna-se inviável com *salt* porque ele adiciona um valor aleatório único a cada senha, gerando *hashes* diferentes mesmo para senhas iguais, isso impede que se calcule o *hash* do dicionário apenas uma vez, obrigando o *script* a recalcular o *hash* de todo o dicionário para cada usuário. Na implementação, o arquivo de entrada precisaria conter o par salt:hash e o código mudaria de um fluxo rápido, onde se testa o *hash* da palavra contra todos os usuários de uma vez, para um fluxo lento de *loops* aninhados, onde a lógica de criptografia passa a embutir o *salt* do usuário específico na palavra do dicionário (*salt* \+ senha) antes de gerar o SHA-256, tendo que assim, recalcula os *hashes* para cada *salt* diferente.
 
@@ -61,13 +61,13 @@ O método torna-se inviável com *salt* porque ele adiciona um valor aleatório 
 
 A geração do *salt* foi implementada de forma segura utilizando os.urandom(16). Como as funções criptográficas operam em nível de bytes, as senhas em texto claro foram convertidas usando .encode('utf-8'). Para armazenar no arquivo de texto, utilizamos o método .hex() para converter os bytes do *salt* gerado em uma string hexadecimal. No processo reverso (verificação), utilizamos bytes.fromhex() para reconstruir o *salt* original antes da concatenação.
 
-(imagens/Item2.3.jpeg)
+![Imagem do Item 2.3](imagens/Item2.3.jpeg)
 
 **Item 2.4 \- Ataque de Dicionário com *Salt* (quebra\_com\_salt.py)**
 
 Nesta etapa, implementamos a pré-computação otimizada para lidar com *salts* repetidos. Em vez de iterar sobre o dicionário de senhas para cada linha do arquivo comprometido, primeiramente mapeamos e agrupamos todos os hashes alvo pelo seu respectivo *salt* em uma estrutura de dados de conjunto (*set*). Assim, o cálculo SHA-256(*salt* \+ senha) para todo o dicionário só é executado uma vez por *salt* exclusivo encontrado.
 
-(imagens/Item2.4.jpeg)
+![Imagem do Item 2.4](imagens/Item2.4.jpeg)
 
 ## **Parte 3 \- Análise Comparativa**
 
