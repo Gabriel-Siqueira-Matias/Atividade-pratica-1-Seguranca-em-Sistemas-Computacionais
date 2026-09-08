@@ -1,0 +1,5 @@
+H:\f\e\h\Analise\Arquivo1.txt:ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb
+H:\f\e\h\Analise\Arquivo2.txt:3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d
+H:\f\e\h\Analise\Arquivo3.txt:2e7d2c03a9507ae265ecf5b5356885a53393a2029d241394997265a1a25aefc6
+H:\f\e\h\Analise\Itens\Item1.txt:c2818bc4e5ec4ae4a357a0df6fed73652e169ec676f7d4718cfb6807c5f7d1b0
+H:\f\e\h\Analise\Itens\Item2.txt:626d01cde512b039a33fb4b1aa34f43e448fa8b6c41676db5c3c32c0ad45818d
